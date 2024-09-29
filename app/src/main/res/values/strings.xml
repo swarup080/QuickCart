@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">QuickCart</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="todo">TODO</string>
+    <string name="let_s_you_in">Let\'s you in</string>
+    <string name="facebook">Facebook</string>
+    <string name="continue_with_facebook">Continue with facebook</string>
+    <string name="continue_with_google">Continue with google</string>
+    <string name="or">Or</string>
+    <string name="login_with_password">Login with password</string>
+    <string name="don_t_have_an_account">Don\'t have an Account?</string>
+    <string name="quickcart">QuickCart</string>
+    <string name="the_quality_you_expect_the_nprice_you_deserve">The Quality You Expect, The\\nPrice You Deserve.</string>
+    <string name="quality">The Quality You Expect, The\nPrice You Deserve.</string>
+    <string name="let_s_get_started">Let\'s get started</string>
+    <string name="create_your_n_account">Create your Account</string>
+    <string name="create_your_naccount">Create your\nAccount</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="_91">+91</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="sign_up">Sign up</string>
+    <string name="or_continue_with">or continue with</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in">Log in</string>
+    <string name="login_to_your_naccount">Login to your\nAccount</string>
+    <string name="login">Login</string>
+    <string name="forgot_the_password">Forgot the password?</string>
+    <string name="default_web_client_id">935838095352-ev4gv9rfdehk3ed8hs62d9kh0sp87bj5.apps.googleusercontent.com</string>
+    <string name="category">Category</string>
+    <string name="user_name">User Name</string>
+    <string name="search_product_here">Search product here...</string>
+    <string name="see_all">See all</string>
+    <string name="top_selling_products">Top Selling Products</string>
+    <string name="new_products">New Products</string>
+    <string name="checkout">Checkout</string>
+    <string name="grand_total">Grand Total:</string>
+    <string name="_900">₹900</string>
+    <string name="all_products">All Products</string>
+    <string name="add_delivery_address">Add delivery address</string>
+    <string name="add_payment_method">Add payment method</string>
+    <string name="cash_on_delivery">Cash on Delivery</string>
+
+</resources>
