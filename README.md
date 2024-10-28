@@ -2,7 +2,12 @@
 
 QuickCart is a fully-featured e-commerce application designed with a responsive UI and powerful functionality to provide a smooth shopping experience for both users and administrators.
 
-![Uploading Screenshot_2024-10-28-21-52-49-97_009e7735d5987563f62ca85e3d1b7da0.jpg…]()
+<p align="center">
+  <img src="https://github.com/swarup080/QuickCart/blob/51a9bc630b7587259cfc87e4b4886d336e2f6d40/Screenshot_2024-10-28-21-52-49-97_009e7735d5987563f62ca85e3d1b7da0.jpg?raw=true" width="250" alt="QuickCart Screenshot 1">
+  <img src="https://github.com/swarup080/QuickCart/blob/51a9bc630b7587259cfc87e4b4886d336e2f6d40/Screenshot_2024-10-28-21-53-11-46_009e7735d5987563f62ca85e3d1b7da0.jpg?raw=true" width="250" alt="QuickCart Screenshot 2">
+  <img src="https://github.com/swarup080/QuickCart/blob/51a9bc630b7587259cfc87e4b4886d336e2f6d40/Screenshot_2024-10-28-21-53-16-75_009e7735d5987563f62ca85e3d1b7da0.jpg?raw=true" width="250" alt="QuickCart Screenshot 3">
+</p>
+
 
 ## 📲 Features
  **User**
