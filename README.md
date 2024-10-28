@@ -2,7 +2,7 @@
 
 QuickCart is a fully-featured e-commerce application designed with a responsive UI and powerful functionality to provide a smooth shopping experience for both users and administrators.
 
-<p align="center"> <img src="" width="250" alt="QuickCart Home Screen"> <img src="screenshots/screenshot2.png" width="250" alt="QuickCart Product Page"> <img src="screenshots/screenshot3.png" width="250" alt="QuickCart Admin Panel"> </p>
+![Uploading Screenshot_2024-10-28-21-52-49-97_009e7735d5987563f62ca85e3d1b7da0.jpg…]()
 
 ## 📲 Features
  **User**
