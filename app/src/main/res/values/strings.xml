@@ -39,7 +39,7 @@
     <string name="new_products">New Products</string>
     <string name="checkout">Checkout</string>
     <string name="grand_total">Grand Total:</string>
-    <string name="_900">₹900</string>
+    <string name="_900">₹0.00</string>
     <string name="all_products">All Products</string>
     <string name="add_delivery_address">Add delivery address</string>
     <string name="add_payment_method">Add payment method</string>

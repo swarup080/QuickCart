@@ -35,14 +35,21 @@ class NewProductAdapter(private val context: Context, private val productList: A
                 productName.text = product.productName
                 productPrice.text = product.productPrice
                 productRating.text = product.productRating
+
                 itemView.setOnClickListener {
-                    val intent = Intent(root.context, ProductDetailsActivity::class.java) // Replace TargetActivity with the name of the activity you want to navigate to
+                    val intent = Intent(
+                        root.context,
+                        ProductDetailsActivity::class.java
+                    ) // Replace TargetActivity with the name of the activity you want to navigate to
 
                     // You can pass data to the next activity using intent extras if needed
                     intent.putExtra("productName", product.productName)
-                    intent.putExtra("productPrice", "₹"+product.productPrice)
+                    intent.putExtra("productPrice", product.productPrice)
                     intent.putExtra("productRating", product.productRating)
                     intent.putExtra("productImage", product.productImage)
+                    intent.putExtra("productModelName", product.productModelName)
+                    intent.putExtra("productDescription", product.productDescription)
+
 
                     root.context.startActivity(intent)
                 }

@@ -1,7 +1,7 @@
 package com.example.quickcart.adapter
 
 import android.content.Context
-import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -17,14 +17,14 @@ import com.google.firebase.database.ValueEventListener
 
 class CartAdapter(
     private val context: Context,
-    private val cartList: ArrayList<CartItem>
-) :
-    RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+    private val cartList: ArrayList<CartItem>,
+    private val onItemDeleted: (CartItem) -> Unit // Callback for item deletion
+) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     // Instance of Firebase
     private val auth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance()
-    private lateinit var cartItemReference: DatabaseReference
+    private var cartItemReference: DatabaseReference
 
     init {
         // Initialize firebase
@@ -32,12 +32,12 @@ class CartAdapter(
         cartItemReference = database.reference.child("user").child(userId).child("CartItem")
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = CartUiBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CartAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(cartList[position])
     }
 
@@ -51,11 +51,12 @@ class CartAdapter(
             binding.apply {
                 Glide.with(root.context).load(cartItem.productImage).into(productImage)
                 productName.text = cartItem.productName
-                productPrice.text = cartItem.productPrice
+                productPrice.text = "₹" + cartItem.productPrice
                 productModelName.text = "Model: ${cartItem.productModelName}"
+                Log.e("check", "Model: " + cartItem.productModelName.toString())
                 unitPrice.text = "Unit Price: ${cartItem.productPrice}"
                 delete.setOnClickListener {
-                    deleteItem(position)
+                    deleteItem(adapterPosition)
                 }
             }
         }
@@ -70,14 +71,19 @@ class CartAdapter(
     }
 
     private fun removeData(uniqueKey: String, position: Int) {
-        if (uniqueKey != null) {
-            cartItemReference.child(uniqueKey).removeValue().addOnSuccessListener {
-                cartList.removeAt(position)
-                notifyItemRemoved(position)
-                notifyItemRangeChanged(position, cartList.size)
-            }.addOnFailureListener {
+        cartItemReference.child(uniqueKey).removeValue().addOnSuccessListener {
+            // Get the item before removing it to pass it in the callback
+            val deletedItem = cartList[position]
 
-            }
+            // Remove item from the list
+            cartList.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, cartList.size)
+
+            // Trigger the callback to update the total price
+            onItemDeleted(deletedItem)
+        }.addOnFailureListener {
+            // Handle failure if needed
         }
     }
 
@@ -93,11 +99,8 @@ class CartAdapter(
                     }
                 }
                 uniqueKey?.let {
-                    if (onComplete != null) {
-                        onComplete(it)
-                    }
+                    onComplete?.invoke(it)
                 }
-
             }
 
             override fun onCancelled(error: DatabaseError) {

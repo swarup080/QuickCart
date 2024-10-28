@@ -17,6 +17,7 @@
             android:id="@+id/categoryImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/landscape_placeholder_svgrepo_com" />
     </androidx.cardview.widget.CardView>
 

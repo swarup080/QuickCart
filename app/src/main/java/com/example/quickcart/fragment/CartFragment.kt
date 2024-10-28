@@ -3,9 +3,11 @@ package com.example.quickcart.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quickcart.activity.AddressActivity
@@ -28,26 +30,27 @@ class CartFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
     private lateinit var userId: String
+    private var totalPrice: Double = 0.0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout using binding
         _binding = FragmentCartBinding.inflate(inflater, container, false)
-        auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance()
-        cartItem = ArrayList()
-        // Initialize the adapter with an empty list
-        cartAdapter = CartAdapter(requireContext(), cartItem)
 
-        // Set up the RecyclerView
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.adapter = cartAdapter
-        binding.empty.visibility = View.VISIBLE
+        initialization()
+        setUpRecyclerView()
         retrieveCartDetails()
         binding.checkOut.setOnClickListener {
-            val intent = Intent(requireContext(), AddressActivity::class.java)
-            startActivity(intent)
+            if (totalPrice > 0){
+                val intent = Intent(requireContext(), AddressActivity::class.java)
+                startActivity(intent)
+            }else
+                Toast.makeText(requireContext(), "Cart is empty", Toast.LENGTH_SHORT).show()
+        }
+        // Handle back button click
+        binding.back.setOnClickListener {
+            requireActivity().onBackPressed()
         }
         return binding.root
     }
@@ -56,6 +59,28 @@ class CartFragment : Fragment() {
         super.onDestroyView()
         // Nullify the binding to avoid memory leaks
         _binding = null
+    }
+
+    private fun initialization() {
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        cartItem = ArrayList()
+
+        // Initialize the adapter and set up the item deletion callback
+        cartAdapter = CartAdapter(requireContext(), cartItem) { deletedItem ->
+            // Deduct the deleted item's price from the total price
+            totalPrice -= (deletedItem.productPrice?.toDouble() ?: 0.0) * (deletedItem.quantity
+                ?: 1)
+            // Update the total price in the UI
+            binding.productPrice.text = "₹${String.format("%.2f", totalPrice)}"
+        }
+    }
+
+    private fun setUpRecyclerView() {
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = cartAdapter
+        binding.empty.visibility = View.VISIBLE
     }
 
     private fun retrieveCartDetails() {
@@ -69,10 +94,17 @@ class CartFragment : Fragment() {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 cartItem.clear()
+                totalPrice = 0.0
                 for (i in snapshot.children) {
                     val data = i.getValue(CartItem::class.java)
                     data?.let {
                         cartItem.add(it)
+                        Log.d(
+                            "CartFragment",
+                            "Retrieved item: ${it.productName}, Model: ${it.productModelName ?: "null"}"
+                        )
+                        // Calculate total price by multiplying productPrice by quantity
+                        totalPrice += (it.productPrice?.toDouble() ?: 0.0) * (it.quantity ?: 1)
                     }
                 }
                 // Notify the adapter of data changes
@@ -81,6 +113,7 @@ class CartFragment : Fragment() {
                 _binding?.let {
                     it.progressBar.visibility = View.GONE
                     binding.empty.visibility = if (cartItem.isEmpty()) View.VISIBLE else View.GONE
+                    binding.productPrice.text = "₹${String.format("%.2f", totalPrice)}"
                 }
             }
 
